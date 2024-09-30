@@ -7,6 +7,9 @@ on:
   push:
     paths:
       - 'UnitTests/**'
+  pull_request:
+    paths:
+      - 'UnitTests/**'
 
 jobs:
   build:
