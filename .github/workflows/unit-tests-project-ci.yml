@@ -6,10 +6,10 @@ name: .NET
 on:
   push:
     paths:
-      - 'UnitTests/**'
+      - 'UnitTests/src/**'
   pull_request:
     paths:
-      - 'UnitTests/**'
+      - 'UnitTests/src/**'
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
     
     defaults:
       run:
-        working-directory: UnitTests
+        working-directory: UnitTests/src
 
     steps:
     - uses: actions/checkout@v4
