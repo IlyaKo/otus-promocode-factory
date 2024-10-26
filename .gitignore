@@ -342,6 +342,8 @@ ASALocalRun/
 *.db
 *.db-shm
 *.db-wal
+
+# Local databases
 *.sqlite
 *.sqlite-shm
 *.sqlite-wal

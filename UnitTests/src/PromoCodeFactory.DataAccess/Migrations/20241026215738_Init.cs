@@ -15,10 +15,10 @@ namespace PromoCodeFactory.DataAccess.Migrations
                 name: "customers",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    first_name = table.Column<string>(type: "TEXT", nullable: true),
-                    last_name = table.Column<string>(type: "TEXT", nullable: true),
-                    email = table.Column<string>(type: "TEXT", nullable: true)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    first_name = table.Column<string>(type: "text", nullable: true),
+                    last_name = table.Column<string>(type: "text", nullable: true),
+                    email = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -29,10 +29,10 @@ namespace PromoCodeFactory.DataAccess.Migrations
                 name: "partners",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    name = table.Column<string>(type: "TEXT", nullable: true),
-                    number_issued_promo_codes = table.Column<int>(type: "INTEGER", nullable: false),
-                    is_active = table.Column<bool>(type: "INTEGER", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: true),
+                    number_issued_promo_codes = table.Column<int>(type: "integer", nullable: false),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -43,8 +43,8 @@ namespace PromoCodeFactory.DataAccess.Migrations
                 name: "preferences",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    name = table.Column<string>(type: "TEXT", nullable: true)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -55,9 +55,9 @@ namespace PromoCodeFactory.DataAccess.Migrations
                 name: "roles",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    name = table.Column<string>(type: "TEXT", nullable: true),
-                    description = table.Column<string>(type: "TEXT", nullable: true)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: true),
+                    description = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -68,12 +68,12 @@ namespace PromoCodeFactory.DataAccess.Migrations
                 name: "partner_promo_code_limit",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    partner_id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    create_date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    cancel_date = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    end_date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    limit = table.Column<int>(type: "INTEGER", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    partner_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    create_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    cancel_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    end_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    limit = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -90,8 +90,8 @@ namespace PromoCodeFactory.DataAccess.Migrations
                 name: "customer_preference",
                 columns: table => new
                 {
-                    customer_id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    preference_id = table.Column<Guid>(type: "TEXT", nullable: false)
+                    customer_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    preference_id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -114,12 +114,12 @@ namespace PromoCodeFactory.DataAccess.Migrations
                 name: "employees",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    first_name = table.Column<string>(type: "TEXT", nullable: true),
-                    last_name = table.Column<string>(type: "TEXT", nullable: true),
-                    email = table.Column<string>(type: "TEXT", nullable: true),
-                    role_id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    applied_promocodes_count = table.Column<int>(type: "INTEGER", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    first_name = table.Column<string>(type: "text", nullable: true),
+                    last_name = table.Column<string>(type: "text", nullable: true),
+                    email = table.Column<string>(type: "text", nullable: true),
+                    role_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    applied_promocodes_count = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -136,14 +136,14 @@ namespace PromoCodeFactory.DataAccess.Migrations
                 name: "promo_codes",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    code = table.Column<string>(type: "TEXT", nullable: true),
-                    service_info = table.Column<string>(type: "TEXT", nullable: true),
-                    begin_date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    end_date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    partner_name = table.Column<string>(type: "TEXT", nullable: true),
-                    partner_manager_id = table.Column<Guid>(type: "TEXT", nullable: true),
-                    preference_id = table.Column<Guid>(type: "TEXT", nullable: true)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    code = table.Column<string>(type: "text", nullable: true),
+                    service_info = table.Column<string>(type: "text", nullable: true),
+                    begin_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    end_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    partner_name = table.Column<string>(type: "text", nullable: true),
+                    partner_manager_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    preference_id = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {

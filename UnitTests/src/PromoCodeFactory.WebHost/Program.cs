@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PromoCodeFactory.DataAccess;
+using PromoCodeFactory.DataAccess.Data;
 using System;
 
 namespace PromoCodeFactory.WebHost
@@ -23,7 +24,14 @@ namespace PromoCodeFactory.WebHost
             using var scope = services.CreateScope();
             using var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
 
+            var newDatabase = !dbContext.Database.CanConnect();
             dbContext.Database.Migrate();
+
+            if (newDatabase)
+            {
+                var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+                dbInitializer.InitializeDb();
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
