@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using PromoCodeFactory.DataAccess;
+using System;
 
 namespace PromoCodeFactory.WebHost
 {
@@ -13,7 +11,19 @@ namespace PromoCodeFactory.WebHost
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+
+            MigrateDatabase(host.Services);
+
+            host.Run();
+        }
+
+        private static void MigrateDatabase(IServiceProvider services)
+        {
+            using var scope = services.CreateScope();
+            using var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+
+            dbContext.Database.Migrate();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
