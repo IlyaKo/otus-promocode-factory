@@ -8,6 +8,8 @@ services:
             - 8081:8081
         environment:
             ConnectionStrings__PromoCodeFactoryDb: Host=postgresdb;Database=promocode_factory_db;Username=postgres;Password=password;Port=5432
+        depends_on:
+            - postgresdb
         networks:
             - postgres
 
