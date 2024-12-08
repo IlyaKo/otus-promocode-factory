@@ -1,5 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
+using System;
 
 namespace Pcf.Administration.Core.Domain.Administration
 {
@@ -13,6 +14,7 @@ namespace Pcf.Administration.Core.Domain.Administration
 
         public string Email { get; set; }
 
+        [BsonRepresentation(BsonType.String)]
         public Guid RoleId { get; set; }
         public virtual Role Role { get; set; }
 
