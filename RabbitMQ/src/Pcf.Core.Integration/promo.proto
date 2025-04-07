@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+service ExchangeService {
+  rpc PromocodeCreated (Promocode) returns (Response);
+  rpc Test (Message) returns (Response);
+}
+
+message Message {
+  string text = 1;
+}
+
+message Promocode {
+  string code = 1;
+  string service_info = 2;
+  string begin_date = 3;
+  string end_date = 4;
+  string partner_id = 5;
+  string partner_managerId = 6;
+  string preference_id = 7;
+}
+
+message Response {
+  bool success = 1;
+  string error_message = 2; 
+}

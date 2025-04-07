@@ -66,6 +66,12 @@ namespace Pcf.ReceivingFromPartner.WebHost
                 HostName = Configuration.GetConnectionString("RabbitMQ")
             });
             services.AddScoped<RabbitEventService>();
+
+            services.AddGrpcClient<ExchangeService.ExchangeServiceClient>("Admin", x =>
+                x.Address = new Uri(Configuration["IntegrationSettings:AdministrationApiUrl"]));
+
+            services.AddGrpcClient<ExchangeService.ExchangeServiceClient>("Customer", x =>
+                x.Address = new Uri(Configuration["IntegrationSettings:GivingToCustomerApiUrl"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

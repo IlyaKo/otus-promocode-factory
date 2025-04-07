@@ -1,12 +1,9 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Pcf.Core.Integration;
-using Pcf.GivingToCustomer.Core.Abstractions.Repositories;
 using Pcf.GivingToCustomer.Core.Abstractions.Services;
-using Pcf.GivingToCustomer.Core.Domain;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
-using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -31,9 +28,9 @@ public sealed class PromocodeEventsReceiver(
         using var connection = await _factory.CreateConnectionAsync(stoppingToken);
         using var channel = await connection.CreateChannelAsync(cancellationToken: stoppingToken);
 
-        await channel.ExchangeDeclareAsync(RabbitEventsConstants.PromocodeExchangeKey, 
-            ExchangeType.Topic, 
-            durable: true, 
+        await channel.ExchangeDeclareAsync(RabbitEventsConstants.PromocodeExchangeKey,
+            ExchangeType.Topic,
+            durable: true,
             cancellationToken: stoppingToken);
 
         var queue = await channel.QueueDeclareAsync("giving-to-customer-promocode-on-creating",
@@ -87,6 +84,5 @@ public sealed class PromocodeEventsReceiver(
         {
             await Task.Delay(1000, stoppingToken);
         }
-
     }
 }

@@ -54,11 +54,23 @@ namespace Pcf.GivingToCustomer.WebHost
                 options.Version = "1.0";
             });
 
-            services.AddSingleton(new ConnectionFactory
+            //services.AddSingleton(new ConnectionFactory
+            //{
+            //    HostName = Configuration.GetConnectionString("RabbitMQ")
+            //});
+            //services.AddHostedService<PromocodeEventsReceiver>();
+            services.AddGrpc();
+            services.AddSignalR();
+
+            services.AddCors(x =>
             {
-                HostName = Configuration.GetConnectionString("RabbitMQ")
+                x.AddPolicy("AllowAll", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
             });
-            services.AddHostedService<PromocodeEventsReceiver>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,6 +85,7 @@ namespace Pcf.GivingToCustomer.WebHost
                 app.UseHsts();
             }
 
+            app.UseCors("AllowAll");
             app.UseOpenApi();
             app.UseSwaggerUi(x =>
             {
@@ -86,6 +99,8 @@ namespace Pcf.GivingToCustomer.WebHost
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGrpcService<PromocodeExchangeService>();
+                endpoints.MapHub<PromocodeHub>("/promocodes");
             });
 
             dbInitializer.InitializeDb();
