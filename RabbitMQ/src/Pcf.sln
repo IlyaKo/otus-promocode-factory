@@ -43,6 +43,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pcf.Core", "Pcf.Core", "{F5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pcf.Administration.Integration", "Pcf.Administration\Pcf.Administration.Integration\Pcf.Administration.Integration.csproj", "{E4EBD9C9-2265-4A59-8C8E-932999C4AF23}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "customer-fe", "Pcf.GivingToCustomer\customer-fe\customer-fe.esproj", "{758500C0-9132-EE97-54C9-45B5A2FCB53A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,12 @@ Global
 		{E4EBD9C9-2265-4A59-8C8E-932999C4AF23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4EBD9C9-2265-4A59-8C8E-932999C4AF23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4EBD9C9-2265-4A59-8C8E-932999C4AF23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{758500C0-9132-EE97-54C9-45B5A2FCB53A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{758500C0-9132-EE97-54C9-45B5A2FCB53A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{758500C0-9132-EE97-54C9-45B5A2FCB53A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{758500C0-9132-EE97-54C9-45B5A2FCB53A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{758500C0-9132-EE97-54C9-45B5A2FCB53A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{758500C0-9132-EE97-54C9-45B5A2FCB53A}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -134,6 +142,7 @@ Global
 		{38F1FFB6-5EBF-4EDF-B74E-AF29B0F1ABF7} = {92A39EB2-4342-42A8-A30F-36DB3B5D2C95}
 		{F084DA6F-2A1D-42AB-AC93-07D041D39EA1} = {F50CD620-37D8-498C-A73E-EF4B91A86EB0}
 		{E4EBD9C9-2265-4A59-8C8E-932999C4AF23} = {92A39EB2-4342-42A8-A30F-36DB3B5D2C95}
+		{758500C0-9132-EE97-54C9-45B5A2FCB53A} = {F097559C-FEF3-49AE-A893-C9061181CEE2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {17C782CA-EA30-4F77-827A-B5DA384EF7C1}

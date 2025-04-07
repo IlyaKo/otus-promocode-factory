@@ -60,6 +60,17 @@ namespace Pcf.GivingToCustomer.WebHost
             //});
             //services.AddHostedService<PromocodeEventsReceiver>();
             services.AddGrpc();
+            services.AddSignalR();
+
+            services.AddCors(x =>
+            {
+                x.AddPolicy("AllowAll", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +85,7 @@ namespace Pcf.GivingToCustomer.WebHost
                 app.UseHsts();
             }
 
+            app.UseCors("AllowAll");
             app.UseOpenApi();
             app.UseSwaggerUi(x =>
             {
@@ -88,6 +100,7 @@ namespace Pcf.GivingToCustomer.WebHost
             {
                 endpoints.MapControllers();
                 endpoints.MapGrpcService<PromocodeExchangeService>();
+                endpoints.MapHub<PromocodeHub>("/promocodes");
             });
 
             dbInitializer.InitializeDb();

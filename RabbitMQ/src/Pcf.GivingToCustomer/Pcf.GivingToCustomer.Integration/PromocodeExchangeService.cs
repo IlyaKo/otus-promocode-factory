@@ -1,4 +1,5 @@
-﻿using Pcf.Core.Integration;
+﻿using Microsoft.AspNetCore.SignalR;
+using Pcf.Core.Integration;
 using Pcf.GivingToCustomer.Core.Abstractions.Services;
 using System;
 using System.Threading.Tasks;
@@ -8,10 +9,13 @@ namespace Pcf.GivingToCustomer.Integration;
 public sealed class PromocodeExchangeService : ExchangeServer
 {
     private readonly IPromocodeService promocodeService;
+    private readonly IHubContext<PromocodeHub> hub;
 
-    public PromocodeExchangeService(IPromocodeService promocodeService)
+    public PromocodeExchangeService(IPromocodeService promocodeService,
+        IHubContext<PromocodeHub> hub)
     {
         this.promocodeService = promocodeService;
+        this.hub = hub;
     }
 
     protected override async Task<string> OnPromocodeCreated(PromocodeDto dto)
@@ -21,6 +25,7 @@ public sealed class PromocodeExchangeService : ExchangeServer
         try
         {
             await promocodeService.GivePromoCodesToCustomersWithPreference(dto);
+            await hub.Clients.All.SendAsync("PromocodeReceived", dto);
         }
         catch (Exception ex)
         {
