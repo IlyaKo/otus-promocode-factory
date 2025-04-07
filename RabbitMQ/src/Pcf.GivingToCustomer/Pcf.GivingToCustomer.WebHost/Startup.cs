@@ -54,11 +54,12 @@ namespace Pcf.GivingToCustomer.WebHost
                 options.Version = "1.0";
             });
 
-            services.AddSingleton(new ConnectionFactory
-            {
-                HostName = Configuration.GetConnectionString("RabbitMQ")
-            });
-            services.AddHostedService<PromocodeEventsReceiver>();
+            //services.AddSingleton(new ConnectionFactory
+            //{
+            //    HostName = Configuration.GetConnectionString("RabbitMQ")
+            //});
+            //services.AddHostedService<PromocodeEventsReceiver>();
+            services.AddGrpc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -86,6 +87,7 @@ namespace Pcf.GivingToCustomer.WebHost
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGrpcService<PromocodeExchangeService>();
             });
 
             dbInitializer.InitializeDb();

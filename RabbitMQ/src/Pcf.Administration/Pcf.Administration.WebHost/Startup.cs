@@ -14,6 +14,7 @@ using RabbitMQ.Client;
 using Pcf.Administration.Integration.BackgroundServices;
 using Pcf.Administration.Core.Abstractions.Services;
 using Pcf.Administration.Core.Services;
+using Pcf.Administration.Integration;
 
 namespace Pcf.Administration.WebHost
 {
@@ -51,12 +52,13 @@ namespace Pcf.Administration.WebHost
                 options.Version = "1.0";
             });
 
-            services.AddSingleton(new ConnectionFactory
-            {
-                HostName = Configuration.GetConnectionString("RabbitMQ")
-            });
+            //services.AddSingleton(new ConnectionFactory
+            //{
+            //    HostName = Configuration.GetConnectionString("RabbitMQ")
+            //});
 
-            services.AddHostedService<PromocodeEventsReceiver>();
+            //services.AddHostedService<PromocodeEventsReceiver>();
+            services.AddGrpc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -84,6 +86,7 @@ namespace Pcf.Administration.WebHost
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGrpcService<PromocodeExchangeService>();
             });
 
             dbInitializer.InitializeDb();

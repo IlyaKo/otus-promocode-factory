@@ -9,6 +9,7 @@ using Pcf.ReceivingFromPartner.Core.Abstractions.Gateways;
 using Pcf.ReceivingFromPartner.WebHost.Models;
 using Pcf.ReceivingFromPartner.WebHost.Mappers;
 using Pcf.ReceivingFromPartner.Integration;
+using Grpc.Net.ClientFactory;
 
 namespace Pcf.ReceivingFromPartner.WebHost.Controllers
 {
@@ -24,16 +25,19 @@ namespace Pcf.ReceivingFromPartner.WebHost.Controllers
         private readonly IRepository<Preference> _preferencesRepository;
         private readonly INotificationGateway _notificationGateway;
         private readonly RabbitEventService _eventService;
+        private readonly GrpcClientFactory _grpcFactory;
 
         public PartnersController(IRepository<Partner> partnersRepository,
             IRepository<Preference> preferencesRepository,
             INotificationGateway notificationGateway,
-            RabbitEventService eventService)
+            RabbitEventService eventService,
+            GrpcClientFactory grpcFactory)
         {
             _partnersRepository = partnersRepository;
             _preferencesRepository = preferencesRepository;
             _notificationGateway = notificationGateway;
             _eventService = eventService;
+            _grpcFactory = grpcFactory;
         }
 
         /// <summary>
@@ -328,7 +332,21 @@ namespace Pcf.ReceivingFromPartner.WebHost.Controllers
 
             await _partnersRepository.UpdateAsync(partner);
 
-            await _eventService.SendPromocodeCreatedEvent(promoCode);
+            var promocodeMessage = new Promocode()
+            {
+                Code = promoCode.Code,
+                ServiceInfo = promoCode.ServiceInfo,
+                BeginDate = promoCode.BeginDate.ToString("yyyy-MM-dd"),
+                EndDate = promoCode.EndDate.ToString("yyyy-MM-dd"),
+                PartnerId = promoCode.PartnerId.ToString(),
+                PartnerManagerId = promoCode.PartnerManagerId?.ToString(),
+                PreferenceId = promoCode.PreferenceId.ToString()
+            };
+
+            var adminClient = _grpcFactory.CreateClient<ExchangeService.ExchangeServiceClient>("Admin");
+            await adminClient.PromocodeCreatedAsync(promocodeMessage);
+            var customerClient = _grpcFactory.CreateClient<ExchangeService.ExchangeServiceClient>("Customer");
+            await customerClient.PromocodeCreatedAsync(promocodeMessage);
 
             return CreatedAtAction(nameof(GetPartnerPromoCodeAsync),
                 new { id = partner.Id, promoCodeId = promoCode.Id }, null);
